@@ -6,7 +6,7 @@
 # Beschreibung: Implementierung der Board-Klasse für das 8-Puzzle-Problem.
 # ------------------------------------------
 import random
-
+import math
 
 class Board:
     """
@@ -54,27 +54,44 @@ class Board:
         """
         return hash(tuple(self.board))
 
-    def parity(self):
-        """
-        Paritätsprüfung:
-        Gibt True zurück, wenn das Board lösbar ist.
-        TODO: Implementiere die Berechnung der Parität
-        """
-        return False
+    def parity(self) -> bool:
+        list_without_zero = [x for x in self.board if x != 0]
+        tupleValues: list[tuple[int, int]] = [(list_without_zero[index], list_without_zero[index + 1])
+        for index in range(0, len(list_without_zero), 2)]
 
-    def h1(self):
+        parity_count = 0
+        for tuple_entry in tupleValues:
+            if tuple_entry[0] > tuple_entry[1]:
+                parity_count += 1
+        return parity_count % 2 == 0
+
+    def h1(self)-> int:
         """
         Heuristikfunktion h1 (siehe Aufgabenstellung).
         TODO: Implementiere einfache Heuristik
         """
-        return 0  # Dummywert
+        current_heuristic = len(self.board) - 1 # dont count the empty field / Zero
+        for index in range(0, len(self.board)):
+            if index == self.board[index] :
+                current_heuristic -= 1
+        return current_heuristic  # Dummywert
 
     def h2(self):
+        current_heuristic = 0
+        board_width =  math.sqrt(len(self.board))
+        for index in range(0, len(self.board)):
+            if index == self.board[index]:
+                continue
+            difference = abs(index - self.board[index])
+            skip_rows = math.floor(difference / board_width)
+            skip_blocks =  abs(skip_rows * board_width - difference)
+            current_heuristic += skip_rows + skip_blocks
+            print(f"current heuristic: {current_heuristic}")
         """
         Heuristikfunktion h2 (siehe Aufgabenstellung).
         TODO: Implementiere verbesserte Heuristik
         """
-        return 0  # Dummywert
+        return current_heuristic  # Dummywert
 
     def possible_actions(self):
         """
