@@ -57,8 +57,11 @@ h2 an.
 #### c)  Wieso ist h1(n) ≤ h2(n)? Welche Heuristik ist also besser?
 
 #### d)  Implementieren Sie beide Heuristiken.
+
 [def h1(self)](./board.py#L88-L96)
+
 [def h2(self)](./board.py#L98-L113)
+
 ---
 
 ### Aufgabe 3
