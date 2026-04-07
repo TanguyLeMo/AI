@@ -57,7 +57,8 @@ h2 an.
 #### c)  Wieso ist h1(n) ≤ h2(n)? Welche Heuristik ist also besser?
 
 #### d)  Implementieren Sie beide Heuristiken.
-
+[def h1(self)](./board.py#L88-L96)
+[def h2(self)](./board.py#L98-L113)
 ---
 
 ### Aufgabe 3
@@ -69,6 +70,8 @@ h2 an.
 #### a)  Implementieren Sie Suchverfahren für das 8-Puzzle in zwei Varianten:
 
 • Iterativ vertiefende Suche (iterative deepening depth-first search IDS)
+
+[def dfs(cur_board, path, limit, visited)](./idfs.py#L12-L31)
 
 •  A* mit einer der Heuristiken aus Aufgabe 2. Gerne dürfen Sie auch eine andere Heuristik einsetzen.
 
