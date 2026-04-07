@@ -72,11 +72,7 @@ h2 an.
 
 •  A* mit einer der Heuristiken aus Aufgabe 2. Gerne dürfen Sie auch eine andere Heuristik einsetzen.
 
-#### b)  Testen Sie Ihre Suchverfahren für zufällig generierte Startzustände. Beachten Sie dabei die
-
----
-
-**Paritätsüberlegung in Aufgabe 1.**
+#### b)  Testen Sie Ihre Suchverfahren für zufällig generierte Startzustände. Beachten Sie dabei die Paritätsüberlegung in Aufgabe 1.
 
 #### c)  Bestimmen Sie die Anzahl der vom Suchverfahren generierten Zustände und die Länge der Lösungsfolge für verschiedene Startzustände.  Für das  Board in  Abb. 1 links sind  26 Züge notwendig.
 
