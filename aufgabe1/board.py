@@ -1,4 +1,3 @@
-
 # board.py
 # ------------------------------------------
 # Author: Michael Blaich
@@ -7,6 +6,7 @@
 # ------------------------------------------
 import random
 import math
+
 
 class Board:
     """
@@ -54,37 +54,57 @@ class Board:
         """
         return hash(tuple(self.board))
 
-    def parity(self) -> bool:
+    # Stimmt bisher glaub noch nicht ganz, weil aus einem Zustand [4,1,2,3] würde es nur (4,1) und (2,3) tupeln
+    # richtig wäre (4,1), (4,2), (4,3)
+    """
+        def parity(self) -> bool:
         list_without_zero = [x for x in self.board if x != 0]
         tupleValues: list[tuple[int, int]] = [(list_without_zero[index], list_without_zero[index + 1])
-        for index in range(0, len(list_without_zero), 2)]
+                                              for index in range(0, len(list_without_zero), 2)]
 
         parity_count = 0
         for tuple_entry in tupleValues:
             if tuple_entry[0] > tuple_entry[1]:
                 parity_count += 1
-        return parity_count % 2 == 0
+        return parity_count % 2 == 0 
+    """
 
-    def h1(self)-> int:
+    # Hier mal mein Ansatz, hoffe der stimmt so
+    def parity(self) -> bool:
+        list_without_zero = [x for x in self.board if x != 0]
+
+        false_tuples: list[tuple[int, int]] = []
+        visited_numbers_list: list[int] = []
+
+        # Durchlaufe alle Einträge der Liste
+        for number in list_without_zero:
+            for visited_number in visited_numbers_list:
+                # Prüfe für jeden Eintrag der Liste ob er kleiner ist als irgendein Vorgänger
+                if number < visited_number:
+                    false_tuples.append((number, visited_number)) # Falls ja erstelle ein Tupel aus beiden
+            visited_numbers_list.append(number)
+        return len(false_tuples) % 2 == 0
+
+    def h1(self) -> int:
         """
         Heuristikfunktion h1 (siehe Aufgabenstellung).
         TODO: Implementiere einfache Heuristik
         """
-        current_heuristic = len(self.board) - 1 # dont count the empty field / Zero
+        current_heuristic = len(self.board) - 1  # dont count the empty field / Zero
         for index in range(0, len(self.board)):
-            if index == self.board[index] :
+            if index == self.board[index]:
                 current_heuristic -= 1
         return current_heuristic  # Dummywert
 
     def h2(self):
         current_heuristic = 0
-        board_width =  math.sqrt(len(self.board))
+        board_width = math.sqrt(len(self.board))
         for index in range(0, len(self.board)):
             if index == self.board[index]:
                 continue
             difference = abs(index - self.board[index])
             skip_rows = math.floor(difference / board_width)
-            skip_blocks =  abs(skip_rows * board_width - difference)
+            skip_blocks = abs(skip_rows * board_width - difference)
             current_heuristic += skip_rows + skip_blocks
             print(f"current heuristic: {current_heuristic}")
         """
