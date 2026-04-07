@@ -81,14 +81,13 @@ class Board:
             for visited_number in visited_numbers_list:
                 # Prüfe für jeden Eintrag der Liste ob er kleiner ist als irgendein Vorgänger
                 if number < visited_number:
-                    false_tuples.append((number, visited_number)) # Falls ja erstelle ein Tupel aus beiden
+                    false_tuples.append((number, visited_number))  # Falls ja erstelle ein Tupel aus beiden
             visited_numbers_list.append(number)
         return len(false_tuples) % 2 == 0
 
     def h1(self) -> int:
         """
         Heuristikfunktion h1 (siehe Aufgabenstellung).
-        TODO: Implementiere einfache Heuristik
         """
         current_heuristic = len(self.board) - 1  # dont count the empty field / Zero
         for index in range(0, len(self.board)):
@@ -117,16 +116,53 @@ class Board:
         """
         Gibt eine Liste aller möglichen Folge-Boards zurück,
         die durch einen gültigen Zug entstehen.
-        TODO: Diese Methode muss noch implementiert werden.
         """
-        return []
+        possible_moves = []
+        index_of_zero = self.board.index(0)  # Finde den Index des leeren Felds
+
+        # Falls das Leere Feld nicht in der linken Spalte ist, kann es nach links verschoben werden
+        if index_of_zero % 3 != 0:
+            new_board = self.board[:]
+            temp = new_board[index_of_zero - 1]  # Wert der Feldes links neben dem leeren Feld
+            new_board[index_of_zero - 1] = 0  # leeres Feld nach links verschieben
+            new_board[index_of_zero] = temp
+
+            possible_moves.append(Board(new_board))
+
+        # Falls das leere Feld nicht in der rechten Spalte ist, kann es nach rechts verschoben werden
+        if (index_of_zero + 1) % 3 != 0:
+            new_board = self.board[:]
+            temp = new_board[index_of_zero + 1]
+            new_board[index_of_zero + 1] = 0
+            new_board[index_of_zero] = temp
+
+            possible_moves.append(Board(new_board))
+
+        # Falls das leere Feld nicht in der obersten Reihe ist, kann es nach oben verschoben werden
+        if index_of_zero > 2:
+            new_board = self.board[:]
+            temp = new_board[index_of_zero - 3]
+            new_board[index_of_zero - 3] = 0
+            new_board[index_of_zero] = temp
+
+            possible_moves.append(Board(new_board))
+
+        # Falls das leere Feld nicht in der untersten Reihe ist, kann es nach unten verschoben werden
+        if index_of_zero < 6:
+            new_board = self.board[:]
+            temp = new_board[index_of_zero + 3]
+            new_board[index_of_zero + 3] = 0
+            new_board[index_of_zero] = temp
+
+            possible_moves.append(Board(new_board))
+
+        return possible_moves
 
     def is_solved(self):
         """
         Prüft, ob das Board im Zielzustand ist (0,1,2,3,...,8).
-        TODO: Implementiere die Prüfung ob das Board gelöst ist.
         """
-        return False
+        return self.board == list(range(9))
 
 
 def main():
