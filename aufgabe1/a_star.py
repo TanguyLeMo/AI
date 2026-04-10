@@ -78,17 +78,16 @@ def a_star(start_board: Board) -> Optional[deque[Board]]:
         # 3. Aktuelles Board zur close_list hinzufügen
         closed_list.add(current_node.board)
 
-
         # 4. Durchlaufe ale Möglichen Folge-Boards des aktuelen Boards
         for board in current_node.board.possible_actions():
 
             # Falls das board bereits in der closed_list ist überspringe es
             if board in closed_list:
-                continue;
+                continue
             
             # Ansonsten erstelle für das board einen neuen Node und sortiere es in den Heap ein
             new_node = Node(board, current_node, current_node.g + 1)
             heapq.heappush(open_list, new_node)
 
-
     return None  # Kein Pfad gefunden
+
