@@ -68,9 +68,16 @@ h2 an.
 
 #### a)  Implementieren Sie Suchverfahren für das 8-Puzzle in zwei Varianten:
 
+[board.py](./board.py#L115-L165)
+
 • Iterativ vertiefende Suche (iterative deepening depth-first search IDS)
 
+[idfs.py](./idfs.py#L12-L31)
+
 •  A* mit einer der Heuristiken aus Aufgabe 2. Gerne dürfen Sie auch eine andere Heuristik einsetzen.
+
+[a_star.py](./a_star.py#L40-L94)
+
 
 #### b)  Testen Sie Ihre Suchverfahren für zufällig generierte Startzustände. Beachten Sie dabei die Paritätsüberlegung in Aufgabe 1.
 
