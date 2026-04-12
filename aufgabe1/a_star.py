@@ -52,7 +52,6 @@ def reconstruct_path(node: Node) -> deque[Board]:
     
     # Am schluss noch den Startknoten vorne einfügen   
     path.appendleft(node.board)
-
     return path
 
 

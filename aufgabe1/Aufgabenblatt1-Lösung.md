@@ -50,12 +50,21 @@ Schauen Sie sich das in der Vorlesung besprochene A*-Verfahren und die beiden He
 h2 an.
 
 #### a)  Für  einen  Zustand  z  ist  h1(z)  die  Anzahl  der  falsch  platzierten  Steine  in  Bezug  auf  den Zielzustand. In Abb. 1 ist h1(S) = 8. Wieso ist h1 eine monotone Heuristik?
+Weil: 
+    h(n) ≤  + h(n').
+gelten muss.
+     h(n') welches nur minimal um 1 verbessern kann(-> ein Zug) -> also "worst case:" h(n') = h(n) - 1 + c(n,n') 
+     aber da ein Zug (c(n,n')) immer genau 1 kostet kann der nie niedriger werden als h(n)
+also ist die bedingung erfüllt
 
 #### b)  Für  einen  Zustand  z  ist  h2(z)  die  Summe  der  Manhattan-Distanzen  der  Steine  von  ihren Zielpositionen. In Abb. 1 ist h2(S) = 3 + 1 + 2 + 2 + 2 + 3 + 3 + 2 = 18. Wieso ist h2 eine monotone Heuristik?
-
-
+Dasselbe. 
+Ein Zug verändert ein flasch platzierter Stein höchstens um 1. Da die Schrittkosten 1 sind -> auch monoton
+ 
 #### c)  Wieso ist h1(n) ≤ h2(n)? Welche Heuristik ist also besser?
+Intuition -> Weil sie besser abschätzen kann wie viele echte Züge gebraucht werden damit alle näher an ihrer Zielposition kommen.
 
+Begründung: Tabelle vorlesungsunterlagen: A* mit h2 ist näher an der 1
 #### d)  Implementieren Sie beide Heuristiken.
 
 ---
@@ -84,9 +93,12 @@ h2 an.
 #### c)  Bestimmen Sie die Anzahl der vom Suchverfahren generierten Zustände und die Länge der Lösungsfolge für verschiedene Startzustände.  Für das  Board in  Abb. 1 links sind  26 Züge notwendig.
 
 #### d)  Sind Ihre Zugfolgen optimal? Wenn ja, warum?
+Weil der A* algorithmus immer einen Optimalen weg gibt. 
+Bei er Iterativen Tiefensuche kommt es auf den festgelegten limit an ob überhaupt ein weg und falls ja der optimale gefunden wird.
 
 #### e)  Welches Problem könnte entstehen (nicht ausprobieren!), falls mit Ihrem Programm (IDS und A*) das 15-Puzzle gelöst werden sollte?
-
+A* Speicherplatz probleme durch das Speichern sehr vieler Knoten (mit open und closed list)
+IDS laufzeitprobleme / Limitprobleme bis lösung gefunden wird
 ---
 
 ### Implementierungshinweise

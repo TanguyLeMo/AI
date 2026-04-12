@@ -105,21 +105,20 @@ class Board:
             skip_rows = math.floor(difference / board_width)
             skip_blocks = abs(skip_rows * board_width - difference)
             current_heuristic += skip_rows + skip_blocks
-            print(f"current heuristic: {current_heuristic}")
+            #print(f"current heuristic: {current_heuristic}")
         """
         Heuristikfunktion h2 (siehe Aufgabenstellung).
         TODO: Implementiere verbesserte Heuristik
         """
         return current_heuristic  # Dummywert
 
-    def possible_actions(self):
+    def possible_actions(self) :
         """
         Gibt eine Liste aller möglichen Folge-Boards zurück,
         die durch einen gültigen Zug entstehen.
         """
-        possible_moves = []
+        possible_moves: list[Board] = []
         index_of_zero = self.board.index(0)  # Finde den Index des leeren Felds
-
         # Falls das Leere Feld nicht in der linken Spalte ist, kann es nach links verschoben werden
         if index_of_zero % 3 != 0:
             new_board = self.board[:]
@@ -177,7 +176,7 @@ def main():
 
     for child in b.possible_actions():
         print(child)
-
+    print("Ist lösbar:", b.parity())
     print("Ist gelöst:", b.is_solved())
 
 
