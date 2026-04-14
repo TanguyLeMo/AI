@@ -8,8 +8,11 @@
 from board import Board
 from collections import deque
 
+i = 1
+
 
 def dfs(cur_board, path, limit, visited):
+    global i
     if cur_board.is_solved():
         return path
 
@@ -19,6 +22,7 @@ def dfs(cur_board, path, limit, visited):
     visited.add(cur_board)
 
     for move in cur_board.possible_actions():
+        i = i + 1
         if move in visited:
             continue
 
@@ -42,5 +46,7 @@ def idfs(start_board: Board, limit=1000):  # max. Tiefe arbiträr gesetzt
         visited = set()
         result = dfs(start_board, path, depth, visited)
         if result:
+            print("Durchlaufene Nodes: " + str(i))
             return result
+    print("Durchlaufene Nodes: " + str(i))
     return None
