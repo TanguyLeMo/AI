@@ -17,12 +17,12 @@ def dfs(cur_board, path, limit, visited):
         return None
 
     visited.add(cur_board)
-
     for move in cur_board.possible_actions():
         if move in visited:
             continue
 
         path.append(move)
+
         result = dfs(move, path, limit - 1, visited)
         if result:
             return result

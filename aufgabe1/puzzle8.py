@@ -25,6 +25,7 @@ def main():
     # --- A* ---
     print("\n--- A* Suche ---")
     a_star_result = a_star(board)
+    
     if a_star_result is None:
         print("Keine Lösung gefunden.")
     else:
@@ -39,7 +40,6 @@ def main():
     else:
         print(f"Züge: {len(idfs_result) - 1}")
         [print(step) for step in idfs_result]
-
 
 if __name__ == "__main__":
     main()
