@@ -1,4 +1,3 @@
-
 # board.py
 # ------------------------------------------
 # Author: Michael Blaich
@@ -7,6 +6,7 @@
 # ------------------------------------------
 import random
 import math
+
 
 class Board:
     """
@@ -54,59 +54,114 @@ class Board:
         """
         return hash(tuple(self.board))
 
-    def parity(self) -> bool:
+    # Stimmt bisher glaub noch nicht ganz, weil aus einem Zustand [4,1,2,3] würde es nur (4,1) und (2,3) tupeln
+    # richtig wäre (4,1), (4,2), (4,3)
+    """
+        def parity(self) -> bool:
         list_without_zero = [x for x in self.board if x != 0]
         tupleValues: list[tuple[int, int]] = [(list_without_zero[index], list_without_zero[index + 1])
-        for index in range(0, len(list_without_zero), 2)]
+                                              for index in range(0, len(list_without_zero), 2)]
 
         parity_count = 0
         for tuple_entry in tupleValues:
             if tuple_entry[0] > tuple_entry[1]:
                 parity_count += 1
-        return parity_count % 2 == 0
+        return parity_count % 2 == 0 
+    """
 
-    def h1(self)-> int:
+    # Hier mal mein Ansatz, hoffe der stimmt so
+    def parity(self) -> bool:
+        list_without_zero = [x for x in self.board if x != 0]
+
+        false_tuples: list[tuple[int, int]] = []
+        visited_numbers_list: list[int] = []
+
+        # Durchlaufe alle Einträge der Liste
+        for number in list_without_zero:
+            for visited_number in visited_numbers_list:
+                # Prüfe für jeden Eintrag der Liste ob er kleiner ist als irgendein Vorgänger
+                if number < visited_number:
+                    false_tuples.append((number, visited_number))  # Falls ja erstelle ein Tupel aus beiden
+            visited_numbers_list.append(number)
+        return len(false_tuples) % 2 == 0
+
+    def h1(self) -> int:
         """
         Heuristikfunktion h1 (siehe Aufgabenstellung).
-        TODO: Implementiere einfache Heuristik
         """
-        current_heuristic = len(self.board) - 1 # dont count the empty field / Zero
+        current_heuristic = len(self.board) - 1  # dont count the empty field / Zero
         for index in range(0, len(self.board)):
-            if index == self.board[index] :
+            if index == self.board[index]:
                 current_heuristic -= 1
         return current_heuristic  # Dummywert
 
     def h2(self):
         current_heuristic = 0
-        board_width =  math.sqrt(len(self.board))
+        board_width = math.sqrt(len(self.board))
         for index in range(0, len(self.board)):
             if index == self.board[index]:
                 continue
             difference = abs(index - self.board[index])
             skip_rows = math.floor(difference / board_width)
-            skip_blocks =  abs(skip_rows * board_width - difference)
+            skip_blocks = abs(skip_rows * board_width - difference)
             current_heuristic += skip_rows + skip_blocks
-            print(f"current heuristic: {current_heuristic}")
+            #print(f"current heuristic: {current_heuristic}")
         """
         Heuristikfunktion h2 (siehe Aufgabenstellung).
         TODO: Implementiere verbesserte Heuristik
         """
         return current_heuristic  # Dummywert
 
-    def possible_actions(self):
+    def possible_actions(self) :
         """
         Gibt eine Liste aller möglichen Folge-Boards zurück,
         die durch einen gültigen Zug entstehen.
-        TODO: Diese Methode muss noch implementiert werden.
         """
-        return []
+        possible_moves: list[Board] = []
+        index_of_zero = self.board.index(0)  # Finde den Index des leeren Felds
+        # Falls das Leere Feld nicht in der linken Spalte ist, kann es nach links verschoben werden
+        if index_of_zero % 3 != 0:
+            new_board = self.board[:]
+            temp = new_board[index_of_zero - 1]  # Wert der Feldes links neben dem leeren Feld
+            new_board[index_of_zero - 1] = 0  # leeres Feld nach links verschieben
+            new_board[index_of_zero] = temp
+
+            possible_moves.append(Board(new_board))
+
+        # Falls das leere Feld nicht in der rechten Spalte ist, kann es nach rechts verschoben werden
+        if (index_of_zero + 1) % 3 != 0:
+            new_board = self.board[:]
+            temp = new_board[index_of_zero + 1]
+            new_board[index_of_zero + 1] = 0
+            new_board[index_of_zero] = temp
+
+            possible_moves.append(Board(new_board))
+
+        # Falls das leere Feld nicht in der obersten Reihe ist, kann es nach oben verschoben werden
+        if index_of_zero > 2:
+            new_board = self.board[:]
+            temp = new_board[index_of_zero - 3]
+            new_board[index_of_zero - 3] = 0
+            new_board[index_of_zero] = temp
+
+            possible_moves.append(Board(new_board))
+
+        # Falls das leere Feld nicht in der untersten Reihe ist, kann es nach unten verschoben werden
+        if index_of_zero < 6:
+            new_board = self.board[:]
+            temp = new_board[index_of_zero + 3]
+            new_board[index_of_zero + 3] = 0
+            new_board[index_of_zero] = temp
+
+            possible_moves.append(Board(new_board))
+
+        return possible_moves
 
     def is_solved(self):
         """
         Prüft, ob das Board im Zielzustand ist (0,1,2,3,...,8).
-        TODO: Implementiere die Prüfung ob das Board gelöst ist.
         """
-        return False
+        return self.board == list(range(9))
 
 
 def main():
@@ -121,7 +176,7 @@ def main():
 
     for child in b.possible_actions():
         print(child)
-
+    print("Ist lösbar:", b.parity())
     print("Ist gelöst:", b.is_solved())
 
 

@@ -10,9 +10,24 @@ from collections import deque
 
 
 def dfs(cur_board, path, limit, visited):
-    """
-    TODO: Implementiere die Rekursive Tiefensuche mit Limitierung.
-    """
+    if cur_board.is_solved():
+        return path
+
+    if limit == 0:
+        return None
+
+    visited.add(cur_board)
+
+    for move in cur_board.possible_actions():
+        if move in visited:
+            continue
+
+        path.append(move)
+        result = dfs(move, path, limit - 1, visited)
+        if result:
+            return result
+        path.pop()
+
     return None
 
 
