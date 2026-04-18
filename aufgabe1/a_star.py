@@ -49,8 +49,8 @@ def reconstruct_path(node: Node) -> deque[Board]:
         # Board des aktuellen Knotens vorne in path einfügen
         path.appendleft(node.board)
         node = node.parent
-    
-    # Am schluss noch den Startknoten vorne einfügen   
+
+    # Am schluss noch den Startknoten vorne einfügen
     path.appendleft(node.board)
     return path
 
@@ -72,6 +72,8 @@ def a_star(start_board: Board) -> Optional[deque[Board]]:
 
         # 2. Prüfen ob aktueller Knoten schon das Ziel-Board enthält
         if current_node.board.is_solved():
+            print(f"len open_list: {len(open_list)}")
+            print(f"len closed_list / Expandiert: {len(closed_list)}")
             return reconstruct_path(current_node)
 
         # 3. Aktuelles Board zur close_list hinzufügen
@@ -83,10 +85,11 @@ def a_star(start_board: Board) -> Optional[deque[Board]]:
             # Falls das board bereits in der closed_list ist überspringe es
             if board in closed_list:
                 continue
-            
+
             # Ansonsten erstelle für das board einen neuen Node und sortiere es in den Heap ein
             new_node = Node(board, current_node, current_node.g + 1)
             heapq.heappush(open_list, new_node)
+
 
     return None  # Kein Pfad gefunden
 
