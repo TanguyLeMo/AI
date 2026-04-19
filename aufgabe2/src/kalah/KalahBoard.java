@@ -120,6 +120,11 @@ public class KalahBoard {
         return curPlayer;
     }
 
+
+    public double getWertung() {
+        return -board[AKalah] + board[BKalah];
+    }
+
     /**
      *
      * Liefert letzten Zug zurück (Nummer der Mulde, die gespielt wurde). Wird
