@@ -120,7 +120,7 @@ public class KalahBoard {
         return curPlayer;
     }
 
-
+    // Spieler A ist min Spieler
     public double getWertung() {
         return -board[AKalah] + board[BKalah];
     }

@@ -1,5 +1,7 @@
 package kalah;
 
+import java.sql.SQLOutput;
+
 /**
  * Hauptprogramm für KalahMuster.
  *
@@ -17,7 +19,7 @@ public class Kalah {
     public static void main(String[] args) {
         //testExample();
         //testHHGame();
-        //testMiniMaxAndAlphaBetaWithGivenBoard();
+        testMiniMaxAndAlphaBetaWithGivenBoard();
         //testHumanMiniMax();
         //testHumanMiniMaxAndAlphaBeta();
     }
@@ -55,22 +57,35 @@ public class Kalah {
     }
 
     public static void testMiniMaxAndAlphaBetaWithGivenBoard() {
+
         KalahBoard kalahBd = new KalahBoard(new int[]{2, 0, 4, 3, 2, 0, 0, 1, 0, 1, 3, 2, 1, 0}, 'A');
+        //KalahBoard kalahBd = new KalahBoard();
         // A ist am Zug und kann aufgrund von Bonuszügen 8-aml hintereinander ziehen!
         // A muss deutlich gewinnen!
         kalahBd.print();
 
         while (!kalahBd.isFinished()) {
             int action;
+            var minMax = new MinMax();
+
             if (kalahBd.getCurPlayer() == 'A') {
-                // Berechnen Sie für A eine Aktion mit Ihrem Verfahren und geben Sie die Aktion auf der Konsole aus.
-                // ...
+                action = minMax.BestMove(kalahBd, 5, kalah.action.PLAIN);
+                System.out.println("Plain minMax spielt mulde: " + action);
+                System.out.println("Besuchte Knoten: " + minMax.getItterationCount() );
+
+                action = minMax.BestMove(kalahBd, 5, kalah.action.ALPHABETAPRUNNING);
+                System.out.println("Alphabetaprunning spielt mulde: " + action);
+                System.out.println("Besuchte Knoten: " + minMax.getItterationCount() );
+
+                action = minMax.BestMove(kalahBd, 5, kalah.action.HEURISTIC);
+                System.out.println("Heuristic spielt mulde: " + action);
+                System.out.println("Besuchte Knoten: " + minMax.getItterationCount() );
             }
+
             action = kalahBd.readAction();
             kalahBd.move(action);
             kalahBd.print();
         }
-
         System.out.println("\n" + ANSI_BLUE + "GAME OVER");
     }
 }
