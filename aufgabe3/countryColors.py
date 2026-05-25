@@ -19,12 +19,10 @@ Germany = {
     "Berlin": ["Brandenburg"]
 }
 
-
-
 def solve():
     problem =Problem()
     colours = ["Green", "Blue", "Red", "Yellow"]
-    problem.addVariables(Germany.keys(),colours)    
+    problem.addVariables(Germany.keys(),colours)
     for state, neighbours in Germany.items():
         for neighbour in neighbours:
             problem.addConstraint(lambda colour1, colour2: colour1 != colour2, [state, neighbour])
@@ -34,8 +32,8 @@ def solve():
 def main():
     solution = solve()[0]
     print(solution)
-
     passt = True
+    
     for state, colour in solution.items():
         for neighbor in Germany[state]:
             if colour == solution[neighbor]:
@@ -43,7 +41,6 @@ def main():
                 passt = False
     if passt:
         print("All good")
-        
 
 if __name__ == "__main__":
     main()

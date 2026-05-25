@@ -14,6 +14,7 @@ from constraint import Problem, NotInSetConstraint, AllDifferentConstraint
 def solve():
     problem = Problem()
     problem.addVariables("sendmory", range(10))
+    """"
     problem.addConstraint(lambda d, e, y: (d + e) % 10 == y, "dey")
     problem.addConstraint(
         lambda n, d, r, e, y: (n * 10 + d + r * 10 + e) % 100 == e * 10 + y, "ndrey"
@@ -22,7 +23,7 @@ def solve():
         lambda e, n, d, o, r, y: (e * 100 + n * 10 + d + o * 100 + r * 10 + e) % 1000 ==
         n * 100 + e * 10 + y,
         "endory",
-    )
+    ) """
     problem.addConstraint(
         lambda s, e, n, d, m, o, r, y: 1000 * s +
         100 * e +
